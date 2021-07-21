@@ -1,0 +1,32 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+
+
+}
+
+.navbar-inverse {
+    background-color: #CCFFCC;
+    border-color: #080808;
+}
+
+
+
+.course  li {
+ position: relative;
+ margin-bottom: 30px;
+}
+    .course li .date {
+        text-align: center;
+        background-color: #272323;
+        color: white;
+        width: 120px;
+        border-radius: 8px;
+    }
+
+    .course li .details {
+        position: absolute;
+        top: 5px;
+        left: 167px;
+    }
+

@@ -1,0 +1,105 @@
+﻿@model BigSchool.ViewModels.CourseViewModel
+@using Microsoft.AspNet.Identity
+@using BigSchool.Models;
+@{
+    ViewBag.Title = "Home Page";
+    BigSchool.Models.Following follow =  new BigSchool.Models.Following();
+    var list = (List<String>)ViewBag.list;
+    var listFl = (List<int>)ViewBag.listfl;
+}
+<div class="course"style="padding-top:40px;" >
+    <ul>
+        @foreach (var course in Model.UpcommingCourses)
+        {
+            <li>
+                <div class="date">
+                    <div class="month">
+                        @course.DateTime.ToString("MM")
+                    </div>
+                    <div class="day">
+                        @course.DateTime.ToString("dd")
+                    </div>
+                </div>
+                <div class="details">
+                    <span class="lecturer">
+                        @course.Lecturer.Name
+
+                        @if (list.Contains(course.LecturerId))
+                        {
+                            <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Followed</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                        }
+
+
+
+                    </span>
+                    <span class="category" style="margin: 0px,20px">
+                        @course.Category.Name
+                    </span>
+
+                    @if (listFl.Contains(course.Id))
+                    {
+                        <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance"> Da dang ki</button>
+                    } 
+                    else
+                    {
+                        <button class="btn btn-default btn-sm js-toggle-attendance"  data-course-id="@course.Id">dang ki</button>
+                    }
+
+                </div>
+            </li>
+        }
+    </ul>
+    @section scripts
+    {
+        <script>
+            $(document).ready(function () {
+                $(".js-toggle-attendance").click(function (e) {
+                    var button = $(e.target);
+                   
+                        $.post("/api/attendances", { courseId: button.attr("data-course-id") })
+                            .done(function () {
+                                button
+                                    .removeClass("btn-default")
+                                    .addClass("btn-info")
+                                    .text("Đã đăng kí");
+                            })
+                            .fail(function () {
+                                
+                                alert(" khoa hoc da duoc dang ki");
+                            });
+                 });
+                    @*} else {
+                        $.ajax({
+                            url: "/api/attendances/" + button.attr("data-course-id"),
+                            method: "DELETE"
+                        })
+                            .done(function () {
+                                button
+                                    .removeClass("btn-info")
+                                    .addClass("btn-default")
+                                    .text("Going?");
+                            })
+                            .fail(function () {
+                                alert("Somthing failed");
+                            });
+                    }
+                });*@
+                @*coursesController.init();*@
+                $(".js-toggle-follow").click(function (e) {
+                    var button = $(e.target);
+                    $.post("/api/followings", { followeeId: button.data('user-id') })
+                        .done(function () {
+                            button.text("Following");
+                        })
+                        .fail(function () {
+                            alert("Something failed");
+                        });
+                });
+            });
+        </script>
+    }
+</div>

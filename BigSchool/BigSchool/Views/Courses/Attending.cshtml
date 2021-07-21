@@ -1,0 +1,74 @@
+﻿@model BigSchool.ViewModels.CourseViewModel
+@{
+    ViewBag.Title = "Attending";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Attending</h2>
+
+
+
+    <table class="course " style="width:100%;">
+        @foreach (var course in Model.UpcommingCourses)
+        {
+           
+
+            <tr>
+                <td>
+                    <div class="date ">
+                    
+                            @course.DateTime.ToString("MM")/
+                        
+                            @course.DateTime.ToString("dd")
+                        
+                    </div>
+                </td>
+                <td>
+                    @course.Lecturer.Name
+                </td>
+                <td>
+                    @if (course.IsCanceled)
+                    {
+                        <span class="label label-warning" >Canceled</span>
+                    }
+                    @if (Model.ShowAction && !course.IsCanceled)
+                    {
+                        <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                    }
+                </td>
+                
+               
+                <td>
+                    <br />
+                    <span class="category">
+                        @course.Category.Name
+                    </span>
+                </td>
+
+            </tr>
+            @*<li>
+                <div class="date ">
+                    <div class="month">
+                        @course.DateTime.ToString("MM")
+                    </div>
+                    <div class="day">
+                        @course.DateTime.ToString("dd")
+                    </div>
+                </div>
+                <div class="details">
+                    <span class="lecturer">
+                        @course.Lecturer.Name
+                        @if (Model.ShowAction)
+                        {
+                            <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                        }
+                    </span>
+                    <br />
+                    <span class="category">
+                        @course.Category.Name
+                    </span>
+
+                </div>
+            </li>*@
+        }
+        </table>
